@@ -20,7 +20,7 @@
       build:
         context: .
         dockerfile: Dockerfile.prod
-      command: gunicorn config.wsgi:application --bind 0.0.0.0:3030
+      command: gunicorn config.wsgi:application --bind 0.0.0.0:3535
       volumes:
         - static_volume_toshkent:/home/app/web/static
         - media_volume_toshkent:/home/app/web/media
@@ -29,7 +29,7 @@
       depends_on: 
         - toshkentdb_prod
       ports:
-        - "3030:3030"
+        - "3535:3535"
       env_file: 
         - ./.env.prod
 
