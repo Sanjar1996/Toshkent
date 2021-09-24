@@ -1,0 +1,57 @@
+  version: '2'
+
+  services:
+    toshkentdb_prod:
+      container_name: toshkentdb_prod
+      restart: always  
+      image: postgres:12.2
+      environment:
+        POSTGRES_DB: db_toshkent_prod
+        POSTGRES_USER: toshkentuser_prod
+        POSTGRES_PASSWORD: toshkentpass_prod
+      networks:
+        - toshkent-network
+      volumes:
+          - toshkentdata:/var/lib/postgresql/toshkentdata/
+      
+    toshkentweb_prod:
+      container_name: toshkentweb_prod
+      restart: always  
+      build:
+        context: .
+        dockerfile: Dockerfile.prod
+      command: gunicorn config.wsgi:application --bind 0.0.0.0:3030
+      volumes:
+        - static_volume_toshkent:/home/app/web/static
+        - media_volume_toshkent:/home/app/web/media
+      networks:
+        - toshkent-network
+      depends_on: 
+        - toshkentdb_prod
+      ports:
+        - "3030:3030"
+      env_file: 
+        - ./.env.prod
+
+    toshkentnginx:
+      container_name: toshkent-nginx
+      restart: always
+      build: ./nginx
+      volumes:
+        - static_volume_toshkent:/home/app/web/static
+        - media_volume_toshkent:/home/app/web/media
+      ports:
+        - "6060:6060"
+      networks:
+        - toshkent-network
+      depends_on:
+        - toshkentweb_prod
+        
+  volumes:
+    toshkentdata:
+    static_volume_toshkent:
+    media_volume_toshkent:
+
+  networks:
+    toshkent-network:
+      driver: bridge

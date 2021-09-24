@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  toshkentdb:
+    container_name: toshkentdb
+    image: postgres
+    environment:
+      POSTGRES_DB: db_toshkent
+      POSTGRES_USER: toshkentuser
+      POSTGRES_PASSWORD: toshkentpass
+    volumes:
+      - postgres_data:/var/lib/postgresql/datatoshkent/
+    ports:
+      - "5432:5432"
+  toshkentweb:
+    container_name: toshkent
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - toshkentdb
+    env_file:
+      - ./.env.dev
+
+volumes:
+  postgres_data:
