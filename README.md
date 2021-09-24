@@ -1,2 +1,2 @@
-# Toshkent davlat o`rmon ho`jaligi
+# Toshkent davlat o\'rmon ho\'jaligi
 
