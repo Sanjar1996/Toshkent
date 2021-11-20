@@ -32,7 +32,7 @@ SECRET_KEY = "asdjalhfiuehrauiewlhrioqwejraoiejaiorjeoirwq3243"
 # DEBUG = env.bool("DEBUG", default=False)
 DEBUG = True
 
-ALLOWED_HOSTS = ["toshkent-urmon.uz", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # External apps
-    'parler',
+    # 'parler',
     'active_link',
     'ckeditor',
     'ckeditor_uploader',
